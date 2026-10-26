@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 
 import config.GameConfig;
 import config.ImageConfig;
-import config.Server_cilent;
 import items.bullet.ball;
 import items.bullet.ballBoom;
+import server.Server_cilent;
 import utail.box_img;
 import utail.check_hitbox;
 

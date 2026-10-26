@@ -3,10 +3,10 @@ import javax.swing.*;
 
 import config.GameConfig;
 import config.ImageConfig;
-import config.Server_cilent;
 import items.spawn_items;
 import items.tank;
 import items.wall;
+import server.Server_cilent;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

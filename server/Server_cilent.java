@@ -1,11 +1,14 @@
-package config;
+package server;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import Game.Game;
+import config.GameConfig;
+import items.tank;
 
 public class Server_cilent {
     private static Socket socket;
@@ -42,11 +45,26 @@ public class Server_cilent {
                 while (isConnected && (incomingMessage = in.readLine()) != null) {
                     String msg = incomingMessage;
                     String[] data = msg.split(":");
-                    String method = data[0];
+                    String player = data[0];
+                    String method = data[1];
+                    String maindata = data[2]; 
                     System.out.println("[RECEIVED]: " + msg);
-                    if (method.equalsIgnoreCase("player")) {
-                        player = data[1];
-                        mainF.CreatePlayer(player);
+                    if (method.equalsIgnoreCase("server")) {
+                        if (method.equalsIgnoreCase("player")) {
+                            mainF.CreatePlayer(maindata);
+                        }
+
+                    }else if (method.equalsIgnoreCase("move")) {
+                        List<tank> arr = GameConfig.payerArrayList;
+
+                        for(tank t : arr){
+                            if (maindata.equalsIgnoreCase(t.getHwid())) {
+                                String[] d = maindata.split(",");
+                                int x = Integer.parseInt(d[0]);
+                                int y = Integer.parseInt(d[1]);
+                                t.Move(x, y);
+                            }
+                        }
                     }
                     
                     // parseCommand(msg);
