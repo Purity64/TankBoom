@@ -108,29 +108,52 @@ public class Game extends JFrame {
         for(String p : Players){
             if (isStart) {
 
-                tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i, bg_tranparant );
-                payerArr.add(t1);
-                new Thread(t1).start();
-                if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
-                    me = t1;
-                }
+                player(p ,i);
+
             }else{
                 for(tank t : payerArr){
                     if (!p.equalsIgnoreCase(t.getHwid())) {
-                        tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i , bg_tranparant);
-                        payerArr.add(t1);
-                        new Thread(t1).start();
+                        player(p ,i);
                     }
                 }
             }
 
-            System.out.println(p);
+            System.out.println(i);
 
             
             i++;
             
         }
         isStart = false;
+    }
+
+    private void player(String p, int i) {
+        int tank = GameConfig.payer_size;
+        int margin = 20;
+
+        int w = bg_tranparant.getWidth();
+        int h = bg_tranparant.getHeight();
+
+        int left   = margin;
+        int top    = margin;
+        int right  = w - tank - margin;
+        int bottom = h - tank - margin;
+
+        int location_x = left;
+        int location_y = top;
+
+        if (i == 2) { location_x = right; }
+        if (i == 3) { location_y = bottom; }
+        if (i == 4) { location_x = right; location_y = bottom; }
+
+        tank t1 = new tank(this, ImageConfig.mapImg.get("Tank" + i + ".png"),location_x, location_y, arr, p, "Tank" + i, bg_tranparant);
+
+        payerArr.add(t1);
+        new Thread(t1).start();
+
+        if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
+            me = t1;
+        }
     }
     public String randomType(){
         int randomNumber = random.nextInt(3) + 1;
