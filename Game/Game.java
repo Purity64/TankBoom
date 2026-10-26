@@ -13,8 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Game extends JFrame {
     ArrayList<wall> arr = GameConfig.wallArrayList;
@@ -84,20 +83,18 @@ public class Game extends JFrame {
 
 
 
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                if(GameConfig.item != null) GameConfig.item.Kill();
-                int x = random.nextInt(mainSizeW - GameConfig.item_size);
-                int y = random.nextInt(mainSizeH - GameConfig.item_size);
 
-                spawn_items item1 = new spawn_items(Game.this, x, y,randomType() );
-                GameConfig.item = item1;
-                new Thread(item1).start();
-            }
-        }, 0, 10000);
+
+
     }
 
+    public void spownItem(int x , int y , String type){
+        if(GameConfig.item != null) GameConfig.item.Kill();
+
+        spawn_items item1 = new spawn_items(Game.this, x, y,type );
+        GameConfig.item = item1;
+        new Thread(item1).start();
+    }
     public void CreatePlayer(String playeString){
         System.out.println(playeString);
         String[] Players = playeString.split(",");

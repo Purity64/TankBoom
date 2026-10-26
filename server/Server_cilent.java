@@ -51,8 +51,14 @@ public class Server_cilent {
                     System.out.println("[RECEIVED]: " + msg);
                     if (player.equalsIgnoreCase("server")) {
                         if (method.equalsIgnoreCase("player")) {
-                            System.out.println(maindata);
                             mainF.CreatePlayer(maindata);
+                        }else if(method.equalsIgnoreCase("spownitem")){
+                            String[] row = maindata.split(",");
+                            int x = Integer.parseInt(row[0]);
+                            int y = Integer.parseInt(row[1]);
+                            String type =row[2];
+                            int name = Integer.parseInt(row[3]);
+                            mainF.spownItem(x, y, type);
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {
@@ -64,7 +70,7 @@ public class Server_cilent {
                                 int x = Integer.parseInt(d[0]);
                                 int y = Integer.parseInt(d[1]);
                                 t.setLocation(x, y);
-                                
+
                             }
                         }
                     }
