@@ -208,6 +208,7 @@ public class tank extends box_img implements Runnable{
 
     public void shootServer(int enpoint_x , int enpoint_y ){
         Server_cilent.toServer("shoot:"+enpoint_x+","+enpoint_y);
+        System.out.println("shoot server tank");
         shoot(enpoint_x, enpoint_y);
     }
     @Override

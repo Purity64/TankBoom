@@ -57,7 +57,7 @@ public class Game extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (me != null) {
-                    me.shoot(e.getX(), e.getY());
+                    me.shootServer(e.getX(), e.getY());
                 }
                 
             }
