@@ -49,8 +49,9 @@ public class Server_cilent {
                     String method = data[1];
                     String maindata = data[2]; 
                     System.out.println("[RECEIVED]: " + msg);
-                    if (method.equalsIgnoreCase("server")) {
+                    if (player.equalsIgnoreCase("server")) {
                         if (method.equalsIgnoreCase("player")) {
+                            System.out.println(maindata);
                             mainF.CreatePlayer(maindata);
                         }
 
@@ -58,7 +59,7 @@ public class Server_cilent {
                         List<tank> arr = GameConfig.payerArrayList;
 
                         for(tank t : arr){
-                            if (maindata.equalsIgnoreCase(t.getHwid())) {
+                            if (player.equalsIgnoreCase(t.getHwid())) {
                                 String[] d = maindata.split(",");
                                 int x = Integer.parseInt(d[0]);
                                 int y = Integer.parseInt(d[1]);
