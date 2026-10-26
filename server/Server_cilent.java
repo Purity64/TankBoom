@@ -81,7 +81,7 @@ public class Server_cilent {
                                 String[] d = maindata.split(",");
                                 int x = Integer.parseInt(d[0]);
                                 int y = Integer.parseInt(d[1]);
-                                t.shoot(x, y);
+                                t.shootServer(x, y);
                             }
                         }
                     }

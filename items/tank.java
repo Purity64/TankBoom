@@ -178,7 +178,7 @@ public class tank extends box_img implements Runnable{
         return hwid;
     }
     public void shoot(int enpoint_x , int enpoint_y ){
-        Server_cilent.toServer("shoot:"+enpoint_x+","+enpoint_y);
+        
         if (bulletCount > 0) {
             if (bullet.equalsIgnoreCase("boom")) {
                 ballBoom b = new ballBoom(bg_tranparant, enpoint_x, enpoint_y , this.getX() , this.getY() , this );
@@ -204,6 +204,11 @@ public class tank extends box_img implements Runnable{
 
         
 
+    }
+
+    public void shootServer(int enpoint_x , int enpoint_y ){
+        Server_cilent.toServer("shoot:"+enpoint_x+","+enpoint_y);
+        shoot(enpoint_x, enpoint_y);
     }
     @Override
     public void run() {
