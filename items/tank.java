@@ -164,6 +164,8 @@ public class tank extends box_img implements Runnable{
         this.setLocation(x, y);
         
     }
+
+    
     private void kill(){
         run = false;
         GameConfig.payerArrayList.remove(this);
