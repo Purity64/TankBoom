@@ -39,14 +39,14 @@ public class Game extends JFrame {
         
         
         wall w1 = new wall(this, 200, 200, 300, 300);
-        // wall w2 = new wall(this, 100, 100, 200, 50);
-        // wall w3 = new wall(this, 50, 50, 700, 450);
-        // wall w4 = new wall(this, 100, 20, 200, 600);
+        wall w2 = new wall(this, 100, 100, 200, 50);
+        wall w3 = new wall(this, 50, 50, 700, 450);
+        wall w4 = new wall(this, 100, 20, 200, 600);
         
-         arr.add(w1);
-        // arr.add(w2);
-        // arr.add(w3);
-        // arr.add(w4);
+        arr.add(w1);
+        arr.add(w2);
+        arr.add(w3);
+        arr.add(w4);
         
         Server_cilent.connect(this);
 
