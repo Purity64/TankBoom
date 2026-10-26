@@ -43,15 +43,16 @@ public class tank extends box_img implements Runnable{
     BufferedImage mainImage ;
     BufferedImage shieldImage;
     String nameImage ;
+    JPanel bg_tranparant;
 
     String bullet = "normal";
 
-    public tank( JFrame jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage ){
+    public tank( JFrame jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage , JPanel bg_tranparant){
         super(mainImage);
         this.mainImage = mainImage;
         shieldImage = ImageConfig.mapImg.get(nameImage+"_shield.png");
         this.nameImage = nameImage;
-        
+        this.bg_tranparant = bg_tranparant;
         setBounds(x, y, payer_size, payer_size);
         this.hwid = hwid;
 
@@ -176,7 +177,8 @@ public class tank extends box_img implements Runnable{
     public String getHwid() {
         return hwid;
     }
-    public void shoot(JPanel bg_tranparant ,int enpoint_x , int enpoint_y ){
+    public void shoot(int enpoint_x , int enpoint_y ){
+        Server_cilent.toServer("shoot:"+enpoint_x+","+enpoint_y);
         if (bulletCount > 0) {
             if (bullet.equalsIgnoreCase("boom")) {
                 ballBoom b = new ballBoom(bg_tranparant, enpoint_x, enpoint_y , this.getX() , this.getY() , this );

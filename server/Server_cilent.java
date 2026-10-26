@@ -73,6 +73,17 @@ public class Server_cilent {
 
                             }
                         }
+                    }else if (method.equalsIgnoreCase("shoot")) {
+                        List<tank> arr = GameConfig.payerArrayList;
+
+                        for(tank t : arr){
+                            if (player.equalsIgnoreCase(t.getHwid())) {
+                                String[] d = maindata.split(",");
+                                int x = Integer.parseInt(d[0]);
+                                int y = Integer.parseInt(d[1]);
+                                t.shoot(x, y);
+                            }
+                        }
                     }
                     
                     // parseCommand(msg);

@@ -18,18 +18,19 @@ import java.util.Random;
 public class Game extends JFrame {
     ArrayList<wall> arr = GameConfig.wallArrayList;
     List<tank> payerArr = GameConfig.payerArrayList;
-    
+    JPanel bg_tranparant =  new JPanel();
     int mainSizeW = 1000;
     int mainSizeH = 700;
     boolean isStart = true;
     Random random = new Random();
+    tank me;
     public  Game(){
         setTitle("TankBoom");
         setSize(mainSizeW , mainSizeH);
         setLayout(null);
         ImageConfig img = new ImageConfig();
         img.lode_image();
-        JPanel bg_tranparant =  new JPanel();
+        
         bg_tranparant.setLayout(null);
         bg_tranparant.setBounds(0, 0, mainSizeW, mainSizeH);
         bg_tranparant.setOpaque(false);
@@ -49,11 +50,16 @@ public class Game extends JFrame {
         
         Server_cilent.connect(this);
 
+
+
         bg_tranparant.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                //t1.shoot(bg_tranparant ,e.getX(), e.getY());
+                if (me != null) {
+                    me.shoot(e.getX(), e.getY());
+                }
+                
             }
 
             @Override
@@ -101,13 +107,17 @@ public class Game extends JFrame {
         int i = 1;
         for(String p : Players){
             if (isStart) {
-                tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i );
+
+                tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i, bg_tranparant );
                 payerArr.add(t1);
                 new Thread(t1).start();
+                if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
+                    me = t1;
+                }
             }else{
                 for(tank t : payerArr){
                     if (!p.equalsIgnoreCase(t.getHwid())) {
-                        tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i );
+                        tank t1 = new tank(this ,ImageConfig.mapImg.get("Tank"+ i + ".png") , 10 , 100, arr , p ,"Tank"+i , bg_tranparant);
                         payerArr.add(t1);
                         new Thread(t1).start();
                     }
