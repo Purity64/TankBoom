@@ -220,9 +220,6 @@ public class tank extends box_img implements Runnable{
     }
     @Override
     public void run() {
-        if (hwid.equalsIgnoreCase(Server_cilent.getHwid())) {
-            this.setFocusable(true);
-        }
 
         while(run) {
             int x = this.getX();

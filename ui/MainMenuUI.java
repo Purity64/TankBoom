@@ -28,7 +28,7 @@ public class MainMenuUI extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        BackgroundPanel mainPanel = new BackgroundPanel("image/connection_bg.jpg");
+        BackgroundPanel mainPanel = new BackgroundPanel("images/connection_bg.jpg");
         mainPanel.setLayout(null);
 
         txtName = new JTextField("Player_1");
@@ -40,7 +40,7 @@ public class MainMenuUI extends JFrame {
         styleTextField(txtIP);
 
         // --- ปุ่ม HOST GAME ---
-        JButton btnHost = new JButton(loadIcon("image/host_btn.png", 360, 180));
+        JButton btnHost = new JButton(loadIcon("images/host_btn.png", 360, 180));
         btnHost.setBounds(60, 380, 360, 180);
         styleButton(btnHost);
         btnHost.addActionListener(e -> {
@@ -63,7 +63,7 @@ public class MainMenuUI extends JFrame {
         });
 
         // --- ปุ่ม JOIN GAME ---
-        JButton btnJoin = new JButton(loadIcon("image/join_btn.png", 360, 180));
+        JButton btnJoin = new JButton(loadIcon("images/join_btn.png", 360, 180));
         btnJoin.setBounds(370, 380, 360, 180);
         styleButton(btnJoin);
         btnJoin.addActionListener(e -> {

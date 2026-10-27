@@ -44,7 +44,7 @@ public class LobbyUI extends JFrame  {
             }
         });
 
-        BackgroundPanel mainPanel = new BackgroundPanel("image/lobby_bg.jpg");
+        BackgroundPanel mainPanel = new BackgroundPanel("images/lobby_bg.jpg");
         mainPanel.setLayout(null);
 
         // 1. Status ด้านบน
@@ -59,7 +59,7 @@ public class LobbyUI extends JFrame  {
             int tankNum = i + 1;
             int index = i;
 
-            JButton btn = new JButton(loadIcon("image/Tank" + tankNum + ".png", 38, 38));
+            JButton btn = new JButton(loadIcon("images/Tank" + tankNum + ".png", 38, 38));
             btn.setBounds(tankBtnPos[i][0], tankBtnPos[i][1], 48, 48);
             styleButton(btn);
 
@@ -98,11 +98,24 @@ public class LobbyUI extends JFrame  {
         refreshDisplay();
 
         // 4. ปุ่ม Start Game
-        JButton btnLeave = new JButton(loadIcon("image/leave_btn.png", 200, 155));
-        btnLeave.setBounds(265, 370, 200, 155);
+        JButton btnStart = new JButton(loadIcon("images/start_btn.png", 200, 155));
+        btnStart.setBounds(265, 370, 200, 155);
+        styleButton(btnStart);
+        btnStart.addActionListener(e -> {
+            Server_cilent.toServerC("server:GameStart");
+        });
+        mainPanel.add(btnStart);
+
+        // 5. ปุ่ม Leave Game
+        JButton btnLeave = new JButton(loadIcon("images/leave_btn.png", 200, 155));
+        btnLeave.setBounds(120, 422, 149, 49);
         styleButton(btnLeave);
         btnLeave.addActionListener(e -> {
-            Server_cilent.toServerC("server:GameStart");
+            Server_cilent.toServerC("server:LeaveGame:"+Server_cilent.getHwid());
+            Server_cilent.disconnect();
+            dispose();
+            GameConfig.minUi = new MainMenuUI();
+            GameConfig.minUi.setVisible(true);
         });
         mainPanel.add(btnLeave);
 
@@ -150,7 +163,7 @@ public class LobbyUI extends JFrame  {
             } else {
                 playerNameLabels[i].setForeground(Color.BLACK);
                 if (playerNames[i] != null) {
-                    playerTankLabels[i].setIcon(loadIcon("image/Tank" + playerTanks[i] + ".png", 55, 55));
+                    playerTankLabels[i].setIcon(loadIcon("images/Tank" + playerTanks[i] + ".png", 55, 55));
                     playerNameLabels[i].setText(playerNames[i]);
                 } else {
                     playerTankLabels[i].setIcon(null);
@@ -168,6 +181,14 @@ public class LobbyUI extends JFrame  {
             Image img = new ImageIcon(path).getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
             return new ImageIcon(img);
         } catch (Exception e) { return null; }
+    }
+
+    public void clearSlots(){
+        for (int i = 0; i < 4; i++) {
+            playerNames[i] = null;
+            playerTanks[i] = 0;
+        }
+        refreshDisplay();
     }
 
     private void styleButton(JButton btn) {

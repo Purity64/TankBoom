@@ -9,7 +9,7 @@ import items.wall;
 import server.Server_cilent;
 import utail.box_img;
 
-import java.awt.Container;
+import java.awt.*;
 import java.awt.event.*;
 
 import java.util.ArrayList;
@@ -26,7 +26,10 @@ public class Game extends JFrame {
     boolean isStart = true;
     Random random = new Random();
     tank me;
-    JButton reStartBtn = new JButton("ReStart");
+    //Restart_btn
+    Button_img reStartBtn = new Button_img(ImageConfig.mapImg.get("Restart_btn.png"));
+
+
     public  Game(){
         setTitle("TankBoom");
         setSize(mainSizeW , mainSizeH);
@@ -34,13 +37,11 @@ public class Game extends JFrame {
         ImageConfig img = new ImageConfig();
         img.lode_image();
         bg_tranparant = new box_img(ImageConfig.mapImg.get("Background.png"));
-        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         bg_tranparant.setLayout(null);
         bg_tranparant.setBounds(0, 0, mainSizeW, mainSizeH);
-        
 
-        
-        
+
         wall w1 = new wall(this, 200, 200, 300, 300);
         wall w2 = new wall(this, 100, 100, 200, 50);
         wall w3 = new wall(this, 50, 50, 700, 450);
@@ -113,16 +114,18 @@ public class Game extends JFrame {
     }
     public void CreatePlayer(String playeString){
         String[] Players = playeString.split(",");
+        
         int i = 1;
         for(String p : Players){
+            String[] PlayersRow = p.split(";");
             if (isStart) {
-                player(p ,i);
-                System.out.println("fist Player : " + p);
+                player(PlayersRow[0] ,Integer.parseInt(PlayersRow[2]), i);
+                System.out.println("fist Player : " + PlayersRow[0]);
             }else{
                 for(tank t : payerArr){
                     if (!p.equalsIgnoreCase(t.getHwid())) {
-                        player(p ,i);
-                        System.out.println("new Player : " + p);
+                        player(PlayersRow[0] ,Integer.parseInt(PlayersRow[2]) , i);
+                        System.out.println("new Player : " + PlayersRow[0]);
                     }
                 }
             }
@@ -133,7 +136,7 @@ public class Game extends JFrame {
         isStart = false;
     }
 
-    private void player(String p, int i) {
+    private void player(String p, int i , int slot) {
         int tank = GameConfig.payer_size;
         int margin = 20;
 
@@ -148,9 +151,9 @@ public class Game extends JFrame {
         int location_x = left;
         int location_y = top;
 
-        if (i == 2) { location_x = right; }
-        if (i == 3) { location_y = bottom; }
-        if (i == 4) { location_x = right; location_y = bottom; }
+        if (slot == 2) { location_x = right; }
+        if (slot == 3) { location_y = bottom; }
+        if (slot == 4) { location_x = right; location_y = bottom; }
 
         tank t1 = new tank(bg_tranparant, ImageConfig.mapImg.get("Tank" + i + ".png"),location_x, location_y, arr, p, "Tank" + i, bg_tranparant);
 
@@ -159,7 +162,7 @@ public class Game extends JFrame {
 
         if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
             me = t1;
-            installKeyBindings();
+            installKeyListener();
         }
     }
 
@@ -186,22 +189,23 @@ public class Game extends JFrame {
         me = null;
         GameConfig.gamestatus = true;
     }
-
-    private void installKeyBindings() {
-        InputMap im = bg_tranparant.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = bg_tranparant.getActionMap();
-        int[] keys = {KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_S, KeyEvent.VK_DOWN,
-                    KeyEvent.VK_A, KeyEvent.VK_LEFT, KeyEvent.VK_D, KeyEvent.VK_RIGHT};
-        String[] dirs = {"w","w","s","s","a","a","d","d"};
-        for (int i = 0; i < keys.length; i++) {
-            final String dir = dirs[i];
-            im.put(KeyStroke.getKeyStroke(keys[i], 0), "move_" + dirs[i] + "_" + keys[i]);
-            am.put("move_" + dirs[i] + "_" + keys[i], new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    if (me != null) me.setMoveDirection(dir);
+    public void focusGame() {
+        bg_tranparant.requestFocusInWindow();
+    }
+    private void installKeyListener() {
+        bg_tranparant.setFocusable(true);
+        bg_tranparant.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (me == null) return;
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_W: case KeyEvent.VK_UP:    me.setMoveDirection("w"); break;
+                    case KeyEvent.VK_S: case KeyEvent.VK_DOWN:  me.setMoveDirection("s"); break;
+                    case KeyEvent.VK_A: case KeyEvent.VK_LEFT:  me.setMoveDirection("a"); break;
+                    case KeyEvent.VK_D: case KeyEvent.VK_RIGHT: me.setMoveDirection("d"); break;
                 }
-            });
-        }
+            }
+        });
     }
     public static void main(String[] args) {
         Game f =  new Game();

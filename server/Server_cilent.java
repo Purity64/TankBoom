@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -19,7 +20,7 @@ public class Server_cilent {
     private static boolean isConnected = false;
     
 
-    private static String hwid = "jeear";
+    private static String hwid = UUID.randomUUID().toString().replace("-", "");
     private static String ip = "127.0.0.1";
     private static int port = 50101;
 
@@ -67,6 +68,7 @@ public class Server_cilent {
                     System.out.println("[RECEIVED]: " + msg);
                     if (player.equalsIgnoreCase("server")) {
                         if (method.equalsIgnoreCase("player")) {
+                            System.out.println(maindata);
                             mainF.CreatePlayer(maindata);
                         }else if(method.equalsIgnoreCase("spownitem")){
                             String[] row = maindata.split(",");
@@ -78,15 +80,16 @@ public class Server_cilent {
                             GameConfig.gamestatus = true;
                         }else if(method.equalsIgnoreCase("game_end")){
                             GameConfig.gamestatus = false;
-                            // mainF.uiEndGame();
+                            mainF.uiEndGame();
                         }else if (method.equalsIgnoreCase("game_restart")) {
-                            // mainF.removeEndGame();
+                            mainF.removeEndGame();
                         }else if(method.equalsIgnoreCase("playerAlldata")){
                             String[] row = maindata.split(",");
+                            GameConfig.lobby.clearSlots(); 
                             for (int i = 0; i < row.length; i++) {
                                 System.out.println(i);
                                 String[] Playerdata = row[i].split(";");
-                                 GameConfig.lobby.updateSlot(i, Playerdata[1], Integer.parseInt(Playerdata[2]));
+                                GameConfig.lobby.updateSlot(i, Playerdata[1], Integer.parseInt(Playerdata[2]));
                                 
                             }
 
@@ -111,7 +114,7 @@ public class Server_cilent {
                             SwingUtilities.invokeLater(() -> {
                                 GameConfig.lobby.dispose();
                                 GameConfig.mainGame.setVisible(true);
-                                GameConfig.mainGame.requestFocusInWindow();
+                                GameConfig.mainGame.focusGame();
                             });
                         }
 
