@@ -116,9 +116,7 @@ public class Game extends JFrame {
         int i = 1;
         for(String p : Players){
             if (isStart) {
-
                 player(p ,i);
-
             }else{
                 for(tank t : payerArr){
                     if (!p.equalsIgnoreCase(t.getHwid())) {
@@ -175,8 +173,13 @@ public class Game extends JFrame {
 
     public void removeEndGame(){
         bg_tranparant.remove(reStartBtn);
+        for(tank t : payerArr){
+            bg_tranparant.remove(t);
+        }
+
         payerArr.clear();
         isStart = true;
+        me = null;
         GameConfig.gamestatus = true;
     }
 
