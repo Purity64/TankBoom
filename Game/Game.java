@@ -28,7 +28,7 @@ public class Game extends JFrame {
     Random random = new Random();
     tank me;
     //Restart_btn
-    Button_img reStartBtn = new Button_img(ImageConfig.mapImg.get("Restart_btn.png"));
+    Button_img reStartBtn ;
 
 
     public  Game(){
@@ -41,7 +41,7 @@ public class Game extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         bg_tranparant.setLayout(null);
         bg_tranparant.setBounds(0, 0, mainSizeW, mainSizeH);
-
+        reStartBtn = new Button_img(ImageConfig.mapImg.get("Restart_btn.png"));
 
         wall w1 = new wall(this, 200, 200, 300, 300);
         wall w2 = new wall(this, 100, 100, 200, 50);
