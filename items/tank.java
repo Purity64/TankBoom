@@ -45,7 +45,7 @@ public class tank extends box_img implements Runnable{
     JPanel bg_tranparant;
 
     String bullet = "normal";
-
+    Timer timer = new Timer();
     public tank( box_img jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage , JPanel bg_tranparant){
         super(mainImage);
         this.mainImage = mainImage;
@@ -129,7 +129,7 @@ public class tank extends box_img implements Runnable{
 
     private void useShield(){
         setBackImage(shieldImage);
-        Timer timer = new Timer();
+        
         timer.scheduleAtFixedRate(new TimerTask() {
             
             public void run() {
@@ -137,6 +137,7 @@ public class tank extends box_img implements Runnable{
                     shield_time--;
                 }else{
                     setBackImage(mainImage);
+                    timer.cancel();
                     return ;
                 }
             }

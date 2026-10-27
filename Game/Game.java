@@ -162,7 +162,7 @@ public class Game extends JFrame {
 
     public void uiEndGame(){
         
-        reStartBtn.setBounds(bg_tranparant.getWidth() / 2, bg_tranparant.getHeight() / 2, 100, 40);
+        reStartBtn.setBounds((bg_tranparant.getWidth() / 2) - 50, (bg_tranparant.getHeight() / 2) - 50, 100, 40);
         reStartBtn.addActionListener(e -> {
             String msg = "server:ReStartGame:1";
             Server_cilent.toServer(msg);
