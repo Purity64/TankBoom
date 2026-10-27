@@ -169,8 +169,8 @@ public class tank extends box_img implements Runnable{
     
     private void kill(){
         run = false;
-        String msg = "server:playerkill";
-        Server_cilent.toServer(msg);
+        String msg = "server:playerkill:"+hwid;
+        Server_cilent.toServerC(msg);
         GameConfig.payerArrayList.remove(this);
         jf.remove(this);
         jf.repaint();
@@ -181,6 +181,7 @@ public class tank extends box_img implements Runnable{
     public String getHwid() {
         return hwid;
     }
+
     public void shoot(int enpoint_x , int enpoint_y ){
         if (!GameConfig.gamestatus) {
             return ;

@@ -26,6 +26,7 @@ public class Game extends JFrame {
     boolean isStart = true;
     Random random = new Random();
     tank me;
+    JButton reStartBtn = new JButton("ReStart");
     public  Game(){
         setTitle("TankBoom");
         setSize(mainSizeW , mainSizeH);
@@ -159,6 +160,24 @@ public class Game extends JFrame {
         if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
             me = t1;
         }
+    }
+
+    public void uiEndGame(){
+        
+        reStartBtn.setBounds(bg_tranparant.getWidth() / 2, bg_tranparant.getHeight() / 2, 100, 40);
+        reStartBtn.addActionListener(e -> {
+            String msg = "server:ReStartGame:1";
+            Server_cilent.toServer(msg);
+            bg_tranparant.remove(reStartBtn);
+        });
+        bg_tranparant.add(reStartBtn);
+    }
+
+    public void removeEndGame(){
+        bg_tranparant.remove(reStartBtn);
+        payerArr.clear();
+        isStart = true;
+        GameConfig.gamestatus = true;
     }
 
     public static void main(String[] args) {

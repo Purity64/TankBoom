@@ -62,6 +62,9 @@ public class Server_cilent {
                             GameConfig.gamestatus = true;
                         }else if(method.equalsIgnoreCase("game_end")){
                             GameConfig.gamestatus = false;
+                            mainF.uiEndGame();
+                        }else if (method.equalsIgnoreCase("game_restart")) {
+                            mainF.removeEndGame();
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {
@@ -112,6 +115,14 @@ public class Server_cilent {
             }
             
             out.println(sead);
+        } else {
+            System.out.println("[WARNING] ไม่สามารถส่งข้อมูลได้ เนื่องจากยังไม่ได้เชื่อมต่อ Server");
+        }
+    }
+
+    public static void toServerC(String data){
+        if (out != null && isConnected) {            
+            out.println(data);
         } else {
             System.out.println("[WARNING] ไม่สามารถส่งข้อมูลได้ เนื่องจากยังไม่ได้เชื่อมต่อ Server");
         }

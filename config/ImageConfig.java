@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageConfig {
-    private final String[] image_path_arr = {"Tank1.png","Tank2.png","Tank3.png","Tank4.png","Tank5.png","Tank6.png","box.png","bullet.png" ,"big_bullet.png" , "Background.png" , "Tank1_shield.png","Tank2_shield.png","Tank3_shield.png","Tank4_shield.png","Tank5_shield.png","Tank6_shield.png"};
+    private final String[] image_path_arr = {"Tank1.png","Tank2.png","Tank3.png","Tank4.png","Tank5.png","Tank6.png","box.png","bullet.png" ,"big_bullet.png" , "Background.png" , "Tank1_shield.png","Tank2_shield.png","Tank3_shield.png","Tank4_shield.png","Tank5_shield.png","Tank6_shield.png","House.png"};
     
     public static final HashMap<String, BufferedImage> mapImg = new HashMap<>();
     

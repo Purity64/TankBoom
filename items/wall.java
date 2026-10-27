@@ -4,13 +4,17 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class wall extends JPanel {
+import config.ImageConfig;
+import utail.box_img;
+
+public class wall extends box_img {
     int w;
     int h;
     int x; 
     int y; 
     
     public wall(JFrame jf, int w, int h, int x, int y){
+        super(ImageConfig.mapImg.get("House.png"));
         this.w = w;
         this.h = h;
 
