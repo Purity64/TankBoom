@@ -7,7 +7,9 @@ import items.spawn_items;
 import items.tank;
 import items.wall;
 import server.Server_cilent;
+import utail.box_img;
 
+import java.awt.Container;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -18,8 +20,8 @@ import java.util.Random;
 public class Game extends JFrame {
     ArrayList<wall> arr = GameConfig.wallArrayList;
     List<tank> payerArr = GameConfig.payerArrayList;
-    JPanel bg_tranparant =  new JPanel();
-    int mainSizeW = 1000;
+    box_img bg_tranparant ;
+    int mainSizeW = 1200;
     int mainSizeH = 700;
     boolean isStart = true;
     Random random = new Random();
@@ -30,11 +32,11 @@ public class Game extends JFrame {
         setLayout(null);
         ImageConfig img = new ImageConfig();
         img.lode_image();
+        bg_tranparant = new box_img(ImageConfig.mapImg.get("Background.png"));
         
         bg_tranparant.setLayout(null);
         bg_tranparant.setBounds(0, 0, mainSizeW, mainSizeH);
-        bg_tranparant.setOpaque(false);
-
+        
 
         
         
@@ -86,7 +88,7 @@ public class Game extends JFrame {
 
         
         add(bg_tranparant);
-
+        sendBackgroundToBack();
 
 
 
@@ -97,12 +99,18 @@ public class Game extends JFrame {
     public void spownItem(int x , int y , String type){
         if(GameConfig.item != null) GameConfig.item.Kill();
 
-        spawn_items item1 = new spawn_items(Game.this, x, y,type );
+        spawn_items item1 = new spawn_items(bg_tranparant, x, y,type );
         GameConfig.item = item1;
         new Thread(item1).start();
     }
+
+    private void sendBackgroundToBack() {
+        Container cp = getContentPane();
+        if (bg_tranparant.getParent() == cp) {
+            cp.setComponentZOrder(bg_tranparant, cp.getComponentCount() - 1);
+        }
+    }
     public void CreatePlayer(String playeString){
-        System.out.println(playeString);
         String[] Players = playeString.split(",");
         int i = 1;
         for(String p : Players){
@@ -117,9 +125,6 @@ public class Game extends JFrame {
                     }
                 }
             }
-
-            System.out.println(i);
-
             
             i++;
             
@@ -146,7 +151,7 @@ public class Game extends JFrame {
         if (i == 3) { location_y = bottom; }
         if (i == 4) { location_x = right; location_y = bottom; }
 
-        tank t1 = new tank(this, ImageConfig.mapImg.get("Tank" + i + ".png"),location_x, location_y, arr, p, "Tank" + i, bg_tranparant);
+        tank t1 = new tank(bg_tranparant, ImageConfig.mapImg.get("Tank" + i + ".png"),location_x, location_y, arr, p, "Tank" + i, bg_tranparant);
 
         payerArr.add(t1);
         new Thread(t1).start();
@@ -155,19 +160,10 @@ public class Game extends JFrame {
             me = t1;
         }
     }
-    public String randomType(){
-        int randomNumber = random.nextInt(3) + 1;
-        String type = "";
-        switch (randomNumber) {
-            case 1: type = "boom_bullet";break;
-            case 2: type = "hp";break;
-            case 3: type = "shield";break;
-            default: type = "boom_bullet";break;
-        }
-        return type;
-    }
+
     public static void main(String[] args) {
         Game f =  new Game();
         f.setVisible(true);
     }
+
 }

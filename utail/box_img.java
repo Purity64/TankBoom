@@ -36,6 +36,8 @@ public class box_img extends JPanel {
         this.backImage = backImage;
     }
 
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

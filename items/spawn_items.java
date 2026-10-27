@@ -16,11 +16,11 @@ public class spawn_items extends box_img  implements Runnable {
     private boolean user = false;
     private String type = "";
 
-    private JFrame mainFrame ;
+    private box_img mainFrame ;
     Random random = new Random();
 
 
-    public spawn_items(JFrame mainFrame , int x , int y ,String type){
+    public spawn_items(box_img mainFrame , int x , int y ,String type){
         super(ImageConfig.mapImg.get("box.png"));
         this.type = type;
         this.mainFrame = mainFrame;

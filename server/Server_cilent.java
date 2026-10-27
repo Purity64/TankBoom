@@ -57,8 +57,11 @@ public class Server_cilent {
                             int x = Integer.parseInt(row[0]);
                             int y = Integer.parseInt(row[1]);
                             String type =row[2];
-                            int name = Integer.parseInt(row[3]);
                             mainF.spownItem(x, y, type);
+                        }else if(method.equalsIgnoreCase("game_start")){
+                            GameConfig.gamestatus = true;
+                        }else if(method.equalsIgnoreCase("game_end")){
+                            GameConfig.gamestatus = false;
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {
@@ -101,7 +104,13 @@ public class Server_cilent {
             String[] row = data.split(":");
             String action = row[0];
             String datas = row[1];
-            String sead = hwid+":"+action+":"+datas;
+            String sead;
+            if (action.equalsIgnoreCase("server")) {
+                 sead = action+":"+datas+":"+hwid;
+            }else{
+                 sead = hwid+":"+action+":"+datas;
+            }
+            
             out.println(sead);
         } else {
             System.out.println("[WARNING] ไม่สามารถส่งข้อมูลได้ เนื่องจากยังไม่ได้เชื่อมต่อ Server");

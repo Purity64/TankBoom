@@ -35,5 +35,6 @@ public class GameConfig {
 
     //server
     public static final int PORT = 50101;
+    public static boolean gamestatus = false;
 
 }

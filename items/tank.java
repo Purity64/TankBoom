@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.GameConfig;
@@ -28,7 +27,7 @@ public class tank extends box_img implements Runnable{
     int max_window_y ;
     int max_window_x ;
 
-    JFrame jf;
+    box_img jf;
 
     String location ;
     ArrayList<wall> arr ;
@@ -47,7 +46,7 @@ public class tank extends box_img implements Runnable{
 
     String bullet = "normal";
 
-    public tank( JFrame jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage , JPanel bg_tranparant){
+    public tank( box_img jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage , JPanel bg_tranparant){
         super(mainImage);
         this.mainImage = mainImage;
         shieldImage = ImageConfig.mapImg.get(nameImage+"_shield.png");
@@ -58,6 +57,7 @@ public class tank extends box_img implements Runnable{
 
         max_window_y = jf.getHeight();
         max_window_x = jf.getWidth();
+        System.out.println(max_window_x);
         this.arr = arr;
         this.jf = jf;
         
@@ -169,16 +169,22 @@ public class tank extends box_img implements Runnable{
     
     private void kill(){
         run = false;
+        String msg = "server:playerkill";
+        Server_cilent.toServer(msg);
         GameConfig.payerArrayList.remove(this);
         jf.remove(this);
         jf.repaint();
         jf.revalidate();
+
+
     }
     public String getHwid() {
         return hwid;
     }
     public void shoot(int enpoint_x , int enpoint_y ){
-        
+        if (!GameConfig.gamestatus) {
+            return ;
+        }
         if (bulletCount > 0) {
             if (bullet.equalsIgnoreCase("boom")) {
                 ballBoom b = new ballBoom(bg_tranparant, enpoint_x, enpoint_y , this.getX() , this.getY() , this );
@@ -208,7 +214,6 @@ public class tank extends box_img implements Runnable{
 
     public void shootServer(int enpoint_x , int enpoint_y ){
         Server_cilent.toServer("shoot:"+enpoint_x+","+enpoint_y);
-        System.out.println("shoot server tank");
         shoot(enpoint_x, enpoint_y);
     }
     @Override
@@ -221,7 +226,7 @@ public class tank extends box_img implements Runnable{
             int x = this.getX();
             int y = this.getY();
             if (max_window_y <= 0 && max_window_x <= 0) continue;
-            if (location != null ) {
+            if (location != null  && GameConfig.gamestatus) {
                 if (checkBox(x, y, payer_size, payer_size)) {
                     if (location.equalsIgnoreCase("w") && y - 5 > 0 ) {
                         Move(x , y - 5);
