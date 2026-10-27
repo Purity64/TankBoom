@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import items.spawn_items;
 import items.tank;
 import items.wall;
+import ui.LobbyUI;
 
 /**
  * Config
@@ -15,12 +16,15 @@ public class GameConfig {
     public static ArrayList<wall> wallArrayList = new ArrayList<>() ;
     public static List<tank> payerArrayList = new CopyOnWriteArrayList<>();
 
+    public static String[] playerNames = {null, null, null, null};
+    public static int[] playerTanks = {1, 0, 0, 0};
+
     public static final int MySlot = 0;
     public static final int payer_size = 50;
     public static final int TankHP = 100;
     public static final int shield_time = 5;
     
-
+    public static LobbyUI lobby = new LobbyUI();
     //items
     public static spawn_items item;
     public final static int  item_size = 50;

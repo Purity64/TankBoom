@@ -1,6 +1,8 @@
+package ui;
 
 import javax.swing.*;
 
+import config.GameConfig;
 import server.Server_cilent;
 
 import java.awt.*;
@@ -47,29 +49,17 @@ public class MainMenuUI extends JFrame {
                 showInputError("Please enter a player name.");
                 return;
             }
-            Server_cilent.connect(null , maxPlayers);
+            Server_cilent.connect(null , maxPlayers , playerName);
             
             System.out.println(playerName);
             System.out.println(maxPlayers);
             
-            LobbyUI lobby = new LobbyUI(maxPlayers);
+            LobbyUI lobby = GameConfig.lobby;
+            lobby.setmaxPlayers(maxPlayers);
+            lobby.updateSlot(0, playerName, 1);
             lobby.setVisible(true);
             this.dispose();
-            //LobbyController controller = new LobbyController(lobby);
-            // try {
-            //     NetworkManager.startServer(LOBBY_PORT, playerName + " (Host)", maxPlayers, snapshot -> {
-            //         SwingUtilities.invokeLater(() -> {
-            //             lobby.applySnapshot(snapshot);
-            //             controller.updatePlayerStatus(snapshot.getPlayerCount(), snapshot.maxPlayers);
-            //         });
-            //     });
-            // } catch (Exception ex) {
-            //     JOptionPane.showMessageDialog(this, "Could not start the host: " + ex.getMessage(),
-            //             "Host error", JOptionPane.ERROR_MESSAGE);
-            //     return;
-            // }
-            // this.dispose();
-            // lobby.setVisible(true);
+
         });
 
         // --- ปุ่ม JOIN GAME ---
@@ -83,28 +73,12 @@ public class MainMenuUI extends JFrame {
                 showInputError("Enter both a player name and the host IP address.");
                 return;
             }
-            // LobbyUI lobby = new LobbyUI(maxPlayers);
-            // LobbyController controller = new LobbyController(lobby);
-            // try {
-            //     boolean connected = NetworkManager.connectHost(targetIP, LOBBY_PORT, playerName,
-            //             snapshot -> {
-            //                 SwingUtilities.invokeLater(() -> {
-            //                     lobby.applySnapshot(snapshot);
-            //                     controller.updatePlayerStatus(snapshot.getPlayerCount(), snapshot.maxPlayers);
-            //                 });
-            //             }, lobby::showNetworkError);
-            //     if (!connected) {
-            //         JOptionPane.showMessageDialog(this, "Cannot join the lobby. It may be full.",
-            //                 "Connection error", JOptionPane.ERROR_MESSAGE);
-            //         return;
-            //     }
-            // } catch (Exception ex) {
-            //     JOptionPane.showMessageDialog(this, "Cannot connect to host: " + ex.getMessage(),
-            //             "Connection error", JOptionPane.ERROR_MESSAGE);
-            //     return;
-            // }
-            // this.dispose();
-            // lobby.setVisible(true);
+            Server_cilent.connect(targetIP , -1 , playerName);
+            LobbyUI lobby = GameConfig.lobby;
+            lobby.setmaxPlayers(maxPlayers);
+            lobby.setVisible(true);
+            this.dispose();
+
         });
 
         // เลือก Max Players

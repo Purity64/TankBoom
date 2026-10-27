@@ -1,17 +1,19 @@
+package ui;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import config.GameConfig;
+import server.Server_cilent;
 
-public class LobbyUI extends JFrame {
+public class LobbyUI extends JFrame  {
 
     private int selectedTankIndex = 0; 
     private int maxPlayers = 4;
 
-    private String[] playerNames = {null, null, null, null};
-    private int[] playerTanks = {1, 0, 0, 0};
+    private String[] playerNames = GameConfig.playerNames;
+    private int[] playerTanks = GameConfig.playerTanks;
 
     private JLabel lblStatus;
     private JLabel lblCountdown;
@@ -29,8 +31,7 @@ public class LobbyUI extends JFrame {
         {290, 309}, {492, 309}
     };
 
-    public LobbyUI(int maxPlayers) {
-        this.maxPlayers = maxPlayers;
+    public LobbyUI( ) {
         setTitle("Tank Boommm - Lobby");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -69,7 +70,7 @@ public class LobbyUI extends JFrame {
 
                 // เปลี่ยนรูปรถถังในการ์ดของเรา (Slot 0) ทันที
                 if (playerNames[localSlot] != null) {
-                     updateSlot(localSlot, playerNames[localSlot], myTankNum);
+                     updateSlotServer(myTankNum);
                 }
                 mainPanel.repaint(); 
             });
@@ -116,13 +117,22 @@ public class LobbyUI extends JFrame {
         add(mainPanel);
     }
 
+    public void setmaxPlayers(int num){
+        this.maxPlayers = num;
+    }
+
     // ฟังก์ชันสำหรับอัปเดตการ์ดผู้เล่นในสล็อต (slotIndex: 0-3)
     public void updateSlot(int slotIndex, String name, int tankNum) {
+        System.out.println("update : " +slotIndex);
         if (slotIndex >= 0 && slotIndex < 4) {
             playerNames[slotIndex] = name;
             playerTanks[slotIndex] = tankNum;
             refreshDisplay();
         }
+    }
+
+    public void updateSlotServer( int tankNum){
+        Server_cilent.toServerC("server:setTank:"+tankNum+","+Server_cilent.getHwid());
     }
 
 
@@ -189,7 +199,7 @@ public class LobbyUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new LobbyUI(4).setVisible(true));
-    }
+
+
+   
 }

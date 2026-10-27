@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.List;
 
-import Game.Game;
 import config.GameConfig;
 import items.tank;
 
@@ -16,7 +15,7 @@ public class Server_cilent {
     private static boolean isConnected = false;
     
 
-    private static String hwid = "jeerawdawd";
+    private static String hwid = "x";
     private static String ip = "127.0.0.1";
     private static int port = 50101;
 
@@ -27,12 +26,15 @@ public class Server_cilent {
         return player;
     }
 
-    public static void connect(String ipConnet  , int maxPlayer) {
+    public static void connect(String ipConnet  , int maxPlayer , String Playername) {
         MaxPlayer = maxPlayer;
         if (isConnected) return; 
 
         new Thread(() -> {
             try {
+                if (ipConnet != null) {
+                    ip = ipConnet;
+                }
                 System.out.println("[CONNECTING] เชื่อมต่อไปยัง " + ip + ":" + port + "...");
                 socket = new Socket(ip, port);
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -41,7 +43,11 @@ public class Server_cilent {
                 out.println(hwid);
                 isConnected = true;
                 System.out.println("[SUCCESS] เชื่อมต่อสำเร็จ!");
-                toServer("server:"+"createRoom:"+Server_cilent.getHwid());
+                if (ipConnet == null) {
+                    toServer("server:"+"createRoom:"+Server_cilent.getHwid());
+                    
+                }
+                toServerC("server:UpDatePlayerData:"+Playername+","+getHwid());
                 String incomingMessage;
                 while (isConnected && (incomingMessage = in.readLine()) != null) {
                     String msg = incomingMessage;
@@ -66,6 +72,17 @@ public class Server_cilent {
                             // mainF.uiEndGame();
                         }else if (method.equalsIgnoreCase("game_restart")) {
                             // mainF.removeEndGame();
+                        }else if(method.equalsIgnoreCase("playerAlldata")){
+                            String[] row = maindata.split(",");
+                            for (int i = 0; i < row.length; i++) {
+                                System.out.println(i);
+                                String[] Playerdata = row[i].split(";");
+                                if (!Playerdata[1].equals("null")) {
+                                    GameConfig.lobby.updateSlot(i, Playerdata[1], Integer.parseInt(Playerdata[2]));
+                                }
+                                
+                            }
+
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {
