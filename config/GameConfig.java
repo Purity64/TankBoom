@@ -15,6 +15,7 @@ public class GameConfig {
     public static ArrayList<wall> wallArrayList = new ArrayList<>() ;
     public static List<tank> payerArrayList = new CopyOnWriteArrayList<>();
 
+    public static final int MySlot = 0;
     public static final int payer_size = 50;
     public static final int TankHP = 100;
     public static final int shield_time = 5;

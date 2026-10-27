@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import Game.Game;
@@ -22,12 +21,14 @@ public class Server_cilent {
     private static int port = 50101;
 
     private static String player = "";
+    private static int MaxPlayer ;
 
     public static String getPlayer() {
         return player;
     }
 
-    public static void connect(Game mainF) {
+    public static void connect(String ipConnet  , int maxPlayer) {
+        MaxPlayer = maxPlayer;
         if (isConnected) return; 
 
         new Thread(() -> {
@@ -40,7 +41,7 @@ public class Server_cilent {
                 out.println(hwid);
                 isConnected = true;
                 System.out.println("[SUCCESS] เชื่อมต่อสำเร็จ!");
-
+                toServer("server:"+"createRoom:"+Server_cilent.getHwid());
                 String incomingMessage;
                 while (isConnected && (incomingMessage = in.readLine()) != null) {
                     String msg = incomingMessage;
@@ -51,20 +52,20 @@ public class Server_cilent {
                     System.out.println("[RECEIVED]: " + msg);
                     if (player.equalsIgnoreCase("server")) {
                         if (method.equalsIgnoreCase("player")) {
-                            mainF.CreatePlayer(maindata);
+                            // mainF.CreatePlayer(maindata);
                         }else if(method.equalsIgnoreCase("spownitem")){
                             String[] row = maindata.split(",");
                             int x = Integer.parseInt(row[0]);
                             int y = Integer.parseInt(row[1]);
                             String type =row[2];
-                            mainF.spownItem(x, y, type);
+                            // mainF.spownItem(x, y, type);
                         }else if(method.equalsIgnoreCase("game_start")){
                             GameConfig.gamestatus = true;
                         }else if(method.equalsIgnoreCase("game_end")){
                             GameConfig.gamestatus = false;
-                            mainF.uiEndGame();
+                            // mainF.uiEndGame();
                         }else if (method.equalsIgnoreCase("game_restart")) {
-                            mainF.removeEndGame();
+                            // mainF.removeEndGame();
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {

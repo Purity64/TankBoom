@@ -51,7 +51,7 @@ public class Game extends JFrame {
         arr.add(w3);
         arr.add(w4);
         
-        Server_cilent.connect(this);
+        
 
 
 
@@ -117,10 +117,12 @@ public class Game extends JFrame {
         for(String p : Players){
             if (isStart) {
                 player(p ,i);
+                System.out.println("fist Player : " + p);
             }else{
                 for(tank t : payerArr){
                     if (!p.equalsIgnoreCase(t.getHwid())) {
                         player(p ,i);
+                        System.out.println("new Player : " + p);
                     }
                 }
             }
@@ -174,6 +176,7 @@ public class Game extends JFrame {
     public void removeEndGame(){
         bg_tranparant.remove(reStartBtn);
         for(tank t : payerArr){
+            t.setRun();
             bg_tranparant.remove(t);
         }
 

@@ -43,9 +43,10 @@ public class tank extends box_img implements Runnable{
     BufferedImage shieldImage;
     String nameImage ;
     JPanel bg_tranparant;
+    Boolean isUserShield = false;
 
     String bullet = "normal";
-    Timer timer = new Timer();
+    
     public tank( box_img jf,BufferedImage mainImage , int x , int y, ArrayList<wall> arr , String hwid , String nameImage , JPanel bg_tranparant){
         super(mainImage);
         this.mainImage = mainImage;
@@ -57,7 +58,6 @@ public class tank extends box_img implements Runnable{
 
         max_window_y = jf.getHeight();
         max_window_x = jf.getWidth();
-        System.out.println(max_window_x);
         this.arr = arr;
         this.jf = jf;
         
@@ -128,16 +128,27 @@ public class tank extends box_img implements Runnable{
     }
 
     private void useShield(){
+        if (isUserShield || !run) {
+            return ;
+        }
+
         setBackImage(shieldImage);
-        
-        timer.scheduleAtFixedRate(new TimerTask() {
-            
+        isUserShield = true;
+        Timer timerShield = new Timer();
+        timerShield.scheduleAtFixedRate(new TimerTask() {
+
             public void run() {
+                if (!run) {
+                    timerShield.cancel();
+                }
                 if (shield_time > 0) {
                     shield_time--;
+                    if (shield_time == 0) {
+                        setBackImage(mainImage);
+                    }
                 }else{
-                    setBackImage(mainImage);
-                    timer.cancel();
+                    timerShield.cancel();
+                    isUserShield = false;
                     return ;
                 }
             }
@@ -167,7 +178,9 @@ public class tank extends box_img implements Runnable{
         
     }
 
-    
+    public void setRun(){
+        run =false;
+    }
     private void kill(){
         run = false;
         String msg = "server:playerkill:"+hwid;
@@ -303,9 +316,8 @@ public class tank extends box_img implements Runnable{
         g2.setColor(new Color(0, 0, 0, 180));
         g2.fillRect(0, barHeight + 1, barWidth, 12);
 
-        // ข้อความสีเหลืองขนาดเล็ก
         g2.setColor(Color.YELLOW);
-        g2.setFont(g2.getFont().deriveFont(9.0f)); // ปรับขนาดฟอนต์เป็น 9pt
+        g2.setFont(g2.getFont().deriveFont(9.0f)); 
         g2.drawString("Reloading...", 2, barHeight + 10);
         }
     }

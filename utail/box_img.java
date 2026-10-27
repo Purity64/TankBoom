@@ -34,6 +34,7 @@ public class box_img extends JPanel {
 
     public void setBackImage(BufferedImage backImage) {
         this.backImage = backImage;
+        repaint();
     }
 
 
