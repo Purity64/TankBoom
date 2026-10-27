@@ -108,8 +108,11 @@ public class Server_cilent {
 
                             }
                         }else if (method.equalsIgnoreCase("GameStartCreate")) {
-                            GameConfig.lobby.dispose();
-                            GameConfig.mainGame.setVisible(true);
+                            SwingUtilities.invokeLater(() -> {
+                                GameConfig.lobby.dispose();
+                                GameConfig.mainGame.setVisible(true);
+                                GameConfig.mainGame.requestFocusInWindow();
+                            });
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {

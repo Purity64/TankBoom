@@ -62,27 +62,14 @@ public class tank extends box_img implements Runnable{
         this.jf = jf;
         
 
-        if (hwid.equalsIgnoreCase(Server_cilent.getHwid())) {
-            addKeyListener(new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    location =  KeyEvent.getKeyText(e.getKeyCode());
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) { }
-            });
-
-            requestFocusInWindow();
-        }
       
         jf.add(this);
     }
 
+    public void setMoveDirection(String dir) { 
+        System.out.println(dir);
+        this.location = dir; 
+    }
     public boolean checkBox(int next_x, int next_y, int tank_w, int tank_h ) {
        
         for (wall w : arr) {

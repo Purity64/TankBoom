@@ -10,8 +10,8 @@ import server.Server_cilent;
 import utail.box_img;
 
 import java.awt.Container;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -159,6 +159,7 @@ public class Game extends JFrame {
 
         if (p.equalsIgnoreCase(Server_cilent.getHwid())) {
             me = t1;
+            installKeyBindings();
         }
     }
 
@@ -186,6 +187,22 @@ public class Game extends JFrame {
         GameConfig.gamestatus = true;
     }
 
+    private void installKeyBindings() {
+        InputMap im = bg_tranparant.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = bg_tranparant.getActionMap();
+        int[] keys = {KeyEvent.VK_W, KeyEvent.VK_UP, KeyEvent.VK_S, KeyEvent.VK_DOWN,
+                    KeyEvent.VK_A, KeyEvent.VK_LEFT, KeyEvent.VK_D, KeyEvent.VK_RIGHT};
+        String[] dirs = {"w","w","s","s","a","a","d","d"};
+        for (int i = 0; i < keys.length; i++) {
+            final String dir = dirs[i];
+            im.put(KeyStroke.getKeyStroke(keys[i], 0), "move_" + dirs[i] + "_" + keys[i]);
+            am.put("move_" + dirs[i] + "_" + keys[i], new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    if (me != null) me.setMoveDirection(dir);
+                }
+            });
+        }
+    }
     public static void main(String[] args) {
         Game f =  new Game();
         f.setVisible(true);
