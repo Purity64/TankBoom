@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import Game.Game;
 import config.GameConfig;
 import items.tank;
 
@@ -15,12 +19,13 @@ public class Server_cilent {
     private static boolean isConnected = false;
     
 
-    private static String hwid = "x";
+    private static String hwid = "jeear";
     private static String ip = "127.0.0.1";
     private static int port = 50101;
 
     private static String player = "";
     private static int MaxPlayer ;
+    private static Game mainF = GameConfig.mainGame;
 
     public static String getPlayer() {
         return player;
@@ -44,27 +49,31 @@ public class Server_cilent {
                 isConnected = true;
                 System.out.println("[SUCCESS] เชื่อมต่อสำเร็จ!");
                 if (ipConnet == null) {
-                    toServer("server:"+"createRoom:"+Server_cilent.getHwid());
+                    toServerC("server:"+"createRoom:"+maxPlayer);
+                    
+                    toServerC("server:UpDatePlayerDataHost:"+Playername+","+getHwid());
+                }else{
+                    toServerC("server:joinRoom:"+getHwid());
                     
                 }
-                toServerC("server:UpDatePlayerData:"+Playername+","+getHwid());
+                
                 String incomingMessage;
                 while (isConnected && (incomingMessage = in.readLine()) != null) {
                     String msg = incomingMessage;
                     String[] data = msg.split(":");
                     String player = data[0];
                     String method = data[1];
-                    String maindata = data[2]; 
+                    String maindata = data.length > 2 ? data[2] : "";
                     System.out.println("[RECEIVED]: " + msg);
                     if (player.equalsIgnoreCase("server")) {
                         if (method.equalsIgnoreCase("player")) {
-                            // mainF.CreatePlayer(maindata);
+                            mainF.CreatePlayer(maindata);
                         }else if(method.equalsIgnoreCase("spownitem")){
                             String[] row = maindata.split(",");
                             int x = Integer.parseInt(row[0]);
                             int y = Integer.parseInt(row[1]);
                             String type =row[2];
-                            // mainF.spownItem(x, y, type);
+                            mainF.spownItem(x, y, type);
                         }else if(method.equalsIgnoreCase("game_start")){
                             GameConfig.gamestatus = true;
                         }else if(method.equalsIgnoreCase("game_end")){
@@ -77,12 +86,30 @@ public class Server_cilent {
                             for (int i = 0; i < row.length; i++) {
                                 System.out.println(i);
                                 String[] Playerdata = row[i].split(";");
-                                if (!Playerdata[1].equals("null")) {
-                                    GameConfig.lobby.updateSlot(i, Playerdata[1], Integer.parseInt(Playerdata[2]));
-                                }
+                                 GameConfig.lobby.updateSlot(i, Playerdata[1], Integer.parseInt(Playerdata[2]));
                                 
                             }
 
+                        }else if(method.equalsIgnoreCase("returnJoin")){
+                            if (maindata.equalsIgnoreCase("ok")) {
+                                toServerC("server:UpDatePlayerData:"+Playername+","+getHwid());
+                                GameConfig.lobby.setVisible(true);
+                                GameConfig.minUi.dispose();;
+                            }else{
+                                SwingUtilities.invokeLater(() ->
+                                    JOptionPane.showMessageDialog(
+                                        null,
+                                        "๋Join failed",
+                                        "Join failed",
+                                        JOptionPane.ERROR_MESSAGE
+                                    )
+                                );
+                                disconnect();
+
+                            }
+                        }else if (method.equalsIgnoreCase("GameStartCreate")) {
+                            GameConfig.lobby.dispose();
+                            GameConfig.mainGame.setVisible(true);
                         }
 
                     }else if (method.equalsIgnoreCase("move")) {

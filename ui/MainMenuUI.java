@@ -73,11 +73,9 @@ public class MainMenuUI extends JFrame {
                 showInputError("Enter both a player name and the host IP address.");
                 return;
             }
+            System.out.println("ui : " + targetIP);
             Server_cilent.connect(targetIP , -1 , playerName);
-            LobbyUI lobby = GameConfig.lobby;
-            lobby.setmaxPlayers(maxPlayers);
-            lobby.setVisible(true);
-            this.dispose();
+
 
         });
 
@@ -157,6 +155,6 @@ public class MainMenuUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenuUI().setVisible(true));
+        SwingUtilities.invokeLater(() -> GameConfig.minUi.setVisible(true));
     }
 }

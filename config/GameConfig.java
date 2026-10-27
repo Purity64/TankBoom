@@ -3,10 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import Game.Game;
 import items.spawn_items;
 import items.tank;
 import items.wall;
 import ui.LobbyUI;
+import ui.MainMenuUI;
 
 /**
  * Config
@@ -25,6 +27,8 @@ public class GameConfig {
     public static final int shield_time = 5;
     
     public static LobbyUI lobby = new LobbyUI();
+    public static MainMenuUI minUi = new MainMenuUI();
+    public static Game mainGame = new Game();
     //items
     public static spawn_items item;
     public final static int  item_size = 50;

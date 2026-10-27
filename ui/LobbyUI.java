@@ -97,13 +97,12 @@ public class LobbyUI extends JFrame  {
 
         refreshDisplay();
 
-        // 4. ปุ่ม Leave Lobby
+        // 4. ปุ่ม Start Game
         JButton btnLeave = new JButton(loadIcon("image/leave_btn.png", 200, 155));
         btnLeave.setBounds(265, 370, 200, 155);
         styleButton(btnLeave);
         btnLeave.addActionListener(e -> {
-            this.dispose();
-            new MainMenuUI().setVisible(true);
+            Server_cilent.toServerC("server:GameStart");
         });
         mainPanel.add(btnLeave);
 
