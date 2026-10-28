@@ -99,7 +99,16 @@ public class LobbyUI extends JFrame  {
         btnStart.setBounds(265, 370, 200, 155);
         styleButton(btnStart);
         btnStart.addActionListener(e -> {
-            Server_cilent.toServerC("server:GameStart");
+            int count = 0;
+            for(String pl : GameConfig.playerNames){
+                if (pl != null) {
+                    count++;
+                }
+            }
+            if (count >= 3) {
+                Server_cilent.toServerC("server:GameStart");
+            }
+           
         });
         mainPanel.add(btnStart);
 
