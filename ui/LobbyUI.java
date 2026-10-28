@@ -119,12 +119,7 @@ public class LobbyUI extends JFrame  {
         });
         mainPanel.add(btnLeave);
 
-        // 5. Countdown ด้านล่าง
-        lblCountdown = new JLabel("Waiting...", SwingConstants.CENTER);
-        lblCountdown.setFont(new Font("Monospaced", Font.BOLD, 15));
-        lblCountdown.setForeground(Color.BLACK);
-        lblCountdown.setBounds(452, 425, 220, 40);
-        mainPanel.add(lblCountdown);
+
 
         add(mainPanel);
     }
@@ -149,10 +144,7 @@ public class LobbyUI extends JFrame  {
 
 
 
-    public void showNetworkError(String message) {
-        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(
-                this, message, "Network error", JOptionPane.ERROR_MESSAGE));
-    }
+
 
     private void refreshDisplay() {
         for (int i = 0; i < 4; i++) {
@@ -174,7 +166,6 @@ public class LobbyUI extends JFrame  {
     }
 
     public JLabel getLblStatus() { return lblStatus; }
-    public JLabel getLblCountdown() { return lblCountdown; }
 
     private ImageIcon loadIcon(String path, int w, int h) {
         try {
