@@ -66,12 +66,9 @@ public class LobbyUI extends JFrame  {
             btn.addActionListener(e -> {
                 selectedTankIndex = index;
                 int myTankNum = selectedTankIndex + 1;
-                int localSlot = GameConfig.MySlot;
 
-                // เปลี่ยนรูปรถถังในการ์ดของเรา (Slot 0) ทันที
-                if (playerNames[localSlot] != null) {
-                     updateSlotServer(myTankNum);
-                }
+                updateSlotServer(myTankNum);
+                
                 mainPanel.repaint(); 
             });
 

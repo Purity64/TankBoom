@@ -47,11 +47,29 @@ public class Game extends JFrame {
         wall w2 = new wall(this, 100, 100, 200, 50);
         wall w3 = new wall(this, 50, 50, 700, 450);
         wall w4 = new wall(this, 100, 20, 200, 600);
-        
+
+
+        wall w5 = new wall(this, 200, 200, 800, 400);
+        wall w6 = new wall(this, 100, 100, 400, 50);
+        wall w7 = new wall(this, 50, 50, 300, 200);
+        wall w8 = new wall(this, 100, 20, 600, 300);
+
+
+        wall w9 = new wall(this, 200, 200, 1000, 150);
+        wall w10 = new wall(this, 200, 200, 650, 0);
+        wall w11 = new wall(this, 200, 200, 0, 200);
         arr.add(w1);
         arr.add(w2);
         arr.add(w3);
         arr.add(w4);
+
+        arr.add(w5);
+        arr.add(w6);
+        arr.add(w7);
+        arr.add(w8);
+        arr.add(w9);
+        arr.add(w10);
+        arr.add(w11);
         
         
 
