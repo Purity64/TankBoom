@@ -58,6 +58,9 @@ public class tank extends box_img implements Runnable {
     String bullet = "normal";
     /** เวลา (ms) ที่ยิงนัดล่าสุด — ใช้ทำ cooldown ต่อนัด */
     long lastShotAt = 0;
+    /** มีมุมหันใหม่ที่ยังไม่ได้ส่งบอกคนอื่น */
+    volatile boolean aimDirty = false;
+    long lastAimSend = 0;
     int hpReportCounter = 0;
     boolean isMe = false;
 
@@ -95,6 +98,10 @@ public class tank extends box_img implements Runnable {
 
     public void setMe(boolean me) {
         this.isMe = me;
+    }
+
+    public boolean isMe() {
+        return isMe;
     }
 
     public boolean isDead() {
@@ -147,6 +154,7 @@ public class tank extends box_img implements Runnable {
     public void Move(int x, int y) {
         // ส่งตำแหน่ง + มุมหันไปด้วย เพื่อให้คนอื่นเห็น tank เราหันถูกทาง
         Server_cilent.toServer("move:" + x + "," + y + "," + (int) Math.round(Math.toDegrees(angle)));
+        aimDirty = false; // move พามุมไปด้วยแล้ว ไม่ต้องส่ง aim แยก
         setLocation(x, y);
     }
 
@@ -169,6 +177,9 @@ public class tank extends box_img implements Runnable {
         // atan2 ให้มุมจากแกน x บวก แต่ sprite ฐานคือมุม +90° (หันลง)
         double a = Math.atan2(py - cy, px - cx) - Math.PI / 2;
         setAngle(a);
+        if (isMe) {
+            aimDirty = true; // ให้ game loop ส่งมุมนี้ไปบอกคนอื่น (throttle แล้ว)
+        }
     }
 
     // ------------------------------------------------------------------
@@ -349,6 +360,16 @@ public class tank extends box_img implements Runnable {
 
                     if ((nx != x || ny != y) && canStandAt(nx, ny)) {
                         Move(nx, ny);
+                    }
+                }
+
+                // ---- ส่งมุมหันที่แกว่งเมาส์ (ยืนนิ่งก็หันได้) ให้คนอื่นเห็น ~8 ครั้ง/วิ ----
+                if (isMe && aimDirty && !dead) {
+                    long nowAim = System.currentTimeMillis();
+                    if (nowAim - lastAimSend >= 120) {
+                        lastAimSend = nowAim;
+                        aimDirty = false;
+                        Server_cilent.toServer("aim:" + (int) Math.round(Math.toDegrees(angle)));
                     }
                 }
 

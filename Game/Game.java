@@ -1,4 +1,4 @@
-﻿package Game;
+package Game;
 import javax.swing.*;
 
 import config.GameConfig;
@@ -45,18 +45,17 @@ public class Game extends JFrame {
         bg_tranparant.setBounds(0, 0, mainSizeW, mainSizeH);
         reStartBtn = new Button_img(ImageConfig.mapImg.get("Restart_btn.png"));
 
-        // ---- แผนที่: สิ่งกีดขวาง 9 ก้อน ไม่ซ้อนกัน มุมทั้ง 4 มุมว่างไว้ให้เกิด ----
-        // สุ่มรูปแบบสิ่งกีดขวางให้แต่ละเกม/แต่ละก้อนต่างกัน
+        // ---- แผนที่: บ้าน/กำแพง 9 ก้อน ไม่ซ้อนกัน มุมทั้ง 4 มุมว่างไว้ให้เกิด ----
         arr.clear();
-        wall w1 = new wall(bg_tranparant, 70, 70, 260, 130, randomObstacleImage());
-        wall w2 = new wall(bg_tranparant, 90, 70, 560, 90, randomObstacleImage());
-        wall w3 = new wall(bg_tranparant, 70, 70, 880, 130, randomObstacleImage());
-        wall w4 = new wall(bg_tranparant, 70, 70, 120, 320, randomObstacleImage());
-        wall w5 = new wall(bg_tranparant, 90, 90, 555, 310, randomObstacleImage());
-        wall w6 = new wall(bg_tranparant, 70, 70, 1010, 320, randomObstacleImage());
-        wall w7 = new wall(bg_tranparant, 70, 70, 260, 500, randomObstacleImage());
-        wall w8 = new wall(bg_tranparant, 90, 70, 560, 540, randomObstacleImage());
-        wall w9 = new wall(bg_tranparant, 70, 70, 880, 500, randomObstacleImage());
+        wall w1 = new wall(bg_tranparant, 70, 70, 260, 130, "House.png");
+        wall w2 = new wall(bg_tranparant, 90, 70, 560, 90, "House.png");
+        wall w3 = new wall(bg_tranparant, 70, 70, 880, 130, "House.png");
+        wall w4 = new wall(bg_tranparant, 70, 70, 120, 320, "House.png");
+        wall w5 = new wall(bg_tranparant, 90, 90, 555, 310, "House.png");
+        wall w6 = new wall(bg_tranparant, 70, 70, 1010, 320, "House.png");
+        wall w7 = new wall(bg_tranparant, 70, 70, 260, 500, "House.png");
+        wall w8 = new wall(bg_tranparant, 90, 70, 560, 540, "House.png");
+        wall w9 = new wall(bg_tranparant, 70, 70, 880, 500, "House.png");
 
         arr.add(w1); arr.add(w2); arr.add(w3);
         arr.add(w4); arr.add(w5); arr.add(w6);
@@ -430,24 +429,5 @@ public class Game extends JFrame {
     public static void main(String[] args) {
         Game f = new Game();
         f.setVisible(true);
-    }
-
-    // ------------------------------------------------------------------
-    // สุ่มรูปสิ่งกีดขวาง (เฉพาะรูปที่โหลดสำเร็จเท่านั้น)
-    // ------------------------------------------------------------------
-    private static final String[] OBSTACLE_IMAGES = {
-        "House.png", "obstacle_rock.png", "obstacle_tree.png", "obstacle_crate.png", "obstacle_sandbag.png"
-    };
-    private final java.util.Random obstacleRandom = new java.util.Random();
-
-    private String randomObstacleImage() {
-        java.util.List<String> available = new ArrayList<>();
-        for (String key : OBSTACLE_IMAGES) {
-            if (ImageConfig.mapImg.get(key) != null) {
-                available.add(key);
-            }
-        }
-        if (available.isEmpty()) return "House.png";
-        return available.get(obstacleRandom.nextInt(available.size()));
     }
 }

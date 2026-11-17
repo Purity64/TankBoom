@@ -113,9 +113,11 @@ public class AutoClient {
         tank me = findMe();
         System.out.println("[TEST] 4.5 หา me tank = " + (me != null) + " hp=" + (me != null ? me.getHp() : -1));
 
-        // ---- 5. บอทเดิน/ยิง (ตัวอื่นต้องเห็น) ----
+        // ---- 5. บอทเดิน/ยิง/หัน (ตัวอื่นต้องเห็น) ----
         b2.send("BOT_TWO_HWID:move:300,300,0");
         b2.send("BOT_TWO_HWID:shoot:600,350");
+        b2.send("BOT_TWO_HWID:aim:45");
+        b2.send("BOT_TWO_HWID:aim:notanumber"); // พัง — ต้องไม่ crash
         sleep(500);
 
         // ---- 6. ฉันเดิน + ยิง ----

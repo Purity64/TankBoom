@@ -253,6 +253,16 @@ public class Server_cilent {
                 } catch (Exception ignored) {}
                 break;
             }
+            case "aim": {
+                try {
+                    double angleDeg = Double.parseDouble(data.trim());
+                    tank t = findTank(senderHwid);
+                    if (t != null && !t.isMe()) {
+                        t.setAngle(Math.toRadians(angleDeg));
+                    }
+                } catch (NumberFormatException ignored) {}
+                break;
+            }
             case "shoot": {
                 try {
                     String[] d = data.split(",");
