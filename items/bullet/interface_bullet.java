@@ -7,18 +7,18 @@ import items.tank;
 import utail.box_img;
 
 abstract class interface_bullet extends box_img implements Runnable {
-    protected tank tankOwner ;
-    
-    protected double main_x; 
+    protected tank tankOwner;
+
+    protected double main_x;
     protected double main_y;
-    
+
     protected int speedMain = 5;
     protected double speed_x = 0;
     protected double speed_y = 0;
     protected JPanel mFrame;
     protected boolean run = true;
 
-    protected interface_bullet(JPanel mFrame, int enpoint_x, int enpoint_y, int start_x, int start_y , tank tankOwner , String img , int Size){
+    protected interface_bullet(JPanel mFrame, int enpoint_x, int enpoint_y, int start_x, int start_y, tank tankOwner, String img, int Size) {
         super(ImageConfig.mapImg.get(img));
         this.mFrame = mFrame;
         this.tankOwner = tankOwner;
@@ -40,20 +40,25 @@ abstract class interface_bullet extends box_img implements Runnable {
             this.speed_y = (dy / distance) * speedMain;
         }
 
-        new Thread(this).start();
+        // หมายเหตุ: ไม่เริ่ม thread ใน constructor (this-escape)
+        // ให้คลาสลูก (ball / ballBoom) เริ่มเองหลังสร้างเสร็จ
     }
-    
-    protected  void setLocation() {
+
+    protected void startBullet() {
+        new Thread(this, "Bullet").start();
+    }
+
+    protected void setLocation() {
         setLocation((int) Math.round(main_x), (int) Math.round(main_y));
         UpdateUI();
     }
 
-    protected  void kill(){
+    protected void kill() {
         mFrame.remove(this);
         UpdateUI();
     }
 
-    protected  void UpdateUI() {
+    protected void UpdateUI() {
         mFrame.revalidate();
         mFrame.repaint();
     }

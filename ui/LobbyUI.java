@@ -40,7 +40,11 @@ public class LobbyUI extends JFrame  {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                
+                // ปิดหน้าต่าง lobby = ออกจากห้อง
+                Server_cilent.toServerC("server:LeaveGame:" + Server_cilent.getHwid());
+                Server_cilent.disconnectVoluntarily();
+                GameConfig.minUi = new MainMenuUI();
+                GameConfig.minUi.setVisible(true);
             }
         });
 
@@ -118,7 +122,7 @@ public class LobbyUI extends JFrame  {
         styleButton(btnLeave);
         btnLeave.addActionListener(e -> {
             Server_cilent.toServerC("server:LeaveGame:"+Server_cilent.getHwid());
-            Server_cilent.disconnect();
+            Server_cilent.disconnectVoluntarily();
             dispose();
             GameConfig.minUi = new MainMenuUI();
             GameConfig.minUi.setVisible(true);

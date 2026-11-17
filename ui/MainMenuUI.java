@@ -74,7 +74,8 @@ public class MainMenuUI extends JFrame {
                 return;
             }
             System.out.println("ui : " + targetIP);
-            Server_cilent.connect(targetIP , -1 , playerName);
+            Server_cilent.setJoinName(playerName);
+            Server_cilent.connect(targetIP, -1, playerName);
 
 
         });
